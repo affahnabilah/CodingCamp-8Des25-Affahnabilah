@@ -163,13 +163,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    deleteAllBtn.addEventListener('click', () => {
-        if (confirm("Are you sure you want to delete ALL tasks?")) {
-            tasks = [];
-            saveTasks();
-            filterTasks(); // Memuat ulang dan merender
-        }
-    });
+   document.getElementById("deleteAllBtn").addEventListener("click", function () {
+    const yakin = confirm("⚠️ Apakah kamu yakin ingin menghapus semua data?");
+
+    if (yakin) {
+        // Hapus semua data localStorage
+        localStorage.removeItem("tasks");  
+
+        // Hapus tampilan di table
+        document.getElementById("taskList").innerHTML = `
+            <tr><td colspan="4" class="no-task-found">No task found</td></tr>
+        `;
+
+        alert("✔️ Semua data berhasil dihapus!");
+    } 
+});
+
 
     filterStatus.addEventListener('change', filterTasks);
 
