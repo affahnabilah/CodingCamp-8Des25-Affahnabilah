@@ -1,109 +1,180 @@
-/* General Styling - LIGHT THEME */
+/* General Styling - LIGHT THEME (Sesuai Gambar Awal) */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6; /* Light background */
+    /* Latar belakang hijau muda/pastel */
+    background-color: #e6f7e9; 
     color: #333;
     margin: 0;
     padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center; 
     min-height: 100vh;
 }
 
 .container {
-    background-color: #ffffff; /* White card */
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    /* Hapus background-color: #ffffff; */
+    
+    /* GANTI INI DENGAN KODE CAMPURAN WARNA WATERCOLOR */
+    background: radial-gradient(
+        circle at 10% 20%, /* Biru Muda Pucat */
+        #e0f7fa 0%, 
+        transparent 35%
+    ),
+    radial-gradient(
+        circle at 90% 10%, /* Hijau Mint Pucat */
+        #f1f8e9 0%, 
+        transparent 40%
+    ),
+    radial-gradient(
+        circle at 50% 100%, /* Peach Pucat */
+        #ffe0b2 0%, 
+        transparent 30%
+    ),
+    radial-gradient(
+        circle at 20% 80%, /* Pink Pucat */
+        #f8bbd0 0%, 
+        transparent 45%
+    ),
+    #fafff8; /* Warna dasar 'kertas' */
+    
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    
+    /* ... properti lain TETAP SAMA ... */
+    padding: 35px 30px;
+    border-radius: 18px; 
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); 
     width: 100%;
-    max-width: 900px;
+    max-width: 680px; 
+    position: relative;
+    overflow: hidden; 
+    margin-top: 5vh; 
+}
+
+/* Dekorasi Daun di Footer */
+.container::after {
+    /* content: ''; ... properti lainnya ... */
+    /* Nonaktifkan agar tidak menimpa background watercolor */
+    display: none; 
 }
 
 h1 {
     text-align: center;
-    color: #00796b; /* Teal/Hijau Tosca */
-    margin-bottom: 30px;
-    font-size: 2.2em;
-    letter-spacing: 1.5px;
+    color: #009688; 
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 600;
 }
 
 /* Input Area Styling */
 .input-area {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+    margin-bottom: 25px; /* Jarak yang lebih lega */
+    align-items: center;
 }
 
-.input-area input, .input-area select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #f9f9f9;
+.input-area input {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f7f7f7;
     color: #333;
     flex: 1;
-    min-width: 120px;
+    min-width: 100px;
+    font-size: 1em;
 }
 
-.input-area input:focus, .input-area select:focus {
-    outline: 2px solid #00a69a; /* Light Teal focus */
+#taskInput {
+    flex: 2; 
+}
+
+#dateInput {
+    flex: 1; 
+    min-width: 120px;
+    -webkit-appearance: none; 
+    appearance: none;
+}
+
+#dateInput[type="date"]::-webkit-calendar-picker-indicator {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23009688" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>') no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.input-area input:focus {
+    outline: 2px solid #a7ffeb; 
+    border-color: #009688;
     background-color: #fff;
 }
 
 .action-btn {
-    padding: 10px 15px;
+    padding: 12px 18px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.3s, transform 0.1s;
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    font-size: 1em;
 }
 
 .add-btn {
-    background-color: #00796b; /* Primary color: Teal */
+    background-color: #009688; 
     color: white;
 }
 
 .add-btn:hover {
-    background-color: #004d40;
+    background-color: #00796b;
     transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 150, 136, 0.3); /* Shadow untuk kesan elegan */
 }
 
 /* Controls Area (Filter & Delete All) */
 .controls-area {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Diganti ke space-between untuk menempatkan filter kiri & tombol delete kanan */
+    align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+    margin-bottom: 25px; /* Jarak yang lebih lega */
 }
 
 .controls-area select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #f9f9f9;
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f7f7f7;
     color: #333;
-    width: 150px;      /* Tambahkan lebar yang kamu mau */
+    width: 150px;
+    font-size: 1em;
 }
 
 .delete-all-btn {
-    background-color: #d32f2f; /* Red for deletion */
+    background-color: #e57373; 
     color: white;
+    padding: 10px 18px; /* Padding sedikit berbeda agar sesuai dengan Select */
 }
 
 .delete-all-btn:hover {
-    background-color: #b71c1c;
+    background-color: #ef5350;
+    box-shadow: 0 4px 8px rgba(229, 115, 115, 0.3);
 }
+
 
 /* Task List Table Styling */
 .task-list-container {
     overflow-x: auto;
+    border-radius: 8px;
+    /* Dihilangkan box-shadow pada container, fokus pada baris */
+    background-color: #ffffff;
+    z-index: 5; 
+    position: relative; /* PENTING: Untuk memastikan konten tampil di atas dekorasi */
 }
+/* Styling Baru untuk Badan Tabel yang Bisa Digulir (Sesuai Permintaan Anda) */
 
 table {
     width: 100%;
@@ -112,116 +183,117 @@ table {
 }
 
 th, td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #eee; /* Lighter border */
+    padding: 14px 15px; /* Padding lebih besar untuk keterbacaan (elegan) */
 }
 
 thead th {
-    background-color: #e0f2f1; /* Very light teal header */
-    color: #004d40;
-    font-weight: 600;
+    background-color: #e0f2f1; 
+    color: #009688;
+    font-weight: 700;
     text-transform: uppercase;
-    font-size: 0.9em;
+    font-size: 0.85em;
+    border-bottom: 3px solid #b2dfdb; /* Garis pemisah header lebih tebal dan jelas */
 }
 
 tbody tr {
-    background-color: #ffffff;
     transition: background-color 0.3s;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
 }
 
 tbody tr:hover {
-    background-color: #f0f0f0;
+    background-color: #f5f5f5;
 }
 
 .no-task-found {
     text-align: center;
-    padding: 20px;
+    padding: 30px; /* Padding lebih besar untuk pesan kosong yang elegan */
     font-style: italic;
     color: #999;
 }
 
-/* Status and Priority Styling */
+/* Status Button Styling */
 .status-btn {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
-    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 20px; 
+    font-size: 0.8em;
+    font-weight: 600;
+    min-width: 90px;
 }
 
 .pending {
-    background-color: #ff9800; /* Orange */
-    color: white;
+    background-color: #ffe0b2; /* Orange lebih muda */
+    color: #ff9800; /* Orange yang cerah */
 }
 
 .completed {
-    background-color: #4caf50; /* Green */
-    color: white;
+    background-color: #c8e6c9; /* Green lebih muda */
+    color: #4caf50; /* Green yang cerah */
 }
 
-
-
-.task-completed {
+.task-completed td {
     text-decoration: line-through;
-    color: #999;
-    transition: color 0.3s, text-decoration 0.3s;
+    color: #aaa;
+    /* Opasitas sedikit diturunkan untuk kesan "selesai" */
+    opacity: 0.7; 
 }
 
 /* Action Buttons within the table */
 .action-cell button {
     margin-right: 5px;
-    padding: 6px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85em;
-    transition: background-color 0.2s;
+    padding: 8px 10px; /* Ukuran tombol action sedikit diperbesar */
+    border-radius: 5px;
+    font-size: 0.9em;
 }
 
-.edit-btn {
-    background-color: #00bcd4; /* Cyan/Biru Muda */
-    color: white;
-}
-
-.edit-btn:hover {
-    background-color: #00838f;
-}
-
-.delete-btn {
-    background-color: #d32f2f;
-    color: white;
-}
-
-.delete-btn:hover {
-    background-color: #b71c1c;
-}
+/* (Tetap menggunakan warna edit/delete yang sudah ada) */
 
 /* Responsive Design */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
     .container {
-        padding: 15px;
+        padding: 20px;
     }
     
-    h1 {
-        font-size: 1.8em;
-    }
-
     .input-area, .controls-area {
         flex-direction: column;
+        align-items: stretch;
     }
 
-    .input-area input, 
-    .input-area select, 
-    .input-area button,
-    .controls-area select,
-    .controls-area button {
+    .input-area input, .input-area button,
+    .controls-area select, .controls-area button {
         width: 100%;
         margin-bottom: 5px;
     }
 
     th, td {
-        padding: 8px 10px;
+        padding: 10px;
         font-size: 0.9em;
     }
+}
+/* --- PAGINATION CONTROLS STYLING --- */
+.pagination-controls {
+    display: flex;
+    justify-content: center; /* Tombol di tengah */
+    align-items: center;
+    gap: 20px;
+    margin-top: 25px; 
+    font-weight: 600;
+    color: #009688; /* Warna teks info halaman */
+}
+
+/* Tombol navigasi menggunakan kelas action-btn yang sudah ada */
+.pagination-controls .action-btn {
+    padding: 8px 15px;
+    background-color: #009688; 
+    color: white;
+}
+
+.pagination-controls .action-btn:disabled {
+    background-color: #e0e0e0; /* Warna abu-abu saat dinonaktifkan */
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }

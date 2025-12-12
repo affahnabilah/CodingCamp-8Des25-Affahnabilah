@@ -2,12 +2,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskList = document.getElementById('taskList');
     const taskInput = document.getElementById('taskInput');
     const dateInput = document.getElementById('dateInput');
-    // priorityInput sudah dihapus
-
+    
     const addTaskBtn = document.getElementById('addTaskBtn');
     const deleteAllBtn = document.getElementById('deleteAllBtn');
     const filterStatus = document.getElementById('filterStatus');
-    // filterPriority sudah dihapus
+
+    // Kontrol Pagination
+    const rowsPerPage = 5;
+    let currentPage = 1;
+    let filteredTasksData = []; // Menyimpan data yang sudah difilter
+
+    // Tombol Pagination
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageInfo = document.getElementById('pageInfo');
+
 
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     let isEditing = false;
@@ -19,83 +28,137 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
-    function renderTasks(filteredTasks = tasks) {
-        taskList.innerHTML = ''; // Kosongkan daftar
-
-        // Karena tabel HTML sekarang hanya 4 kolom (Task, Date, Status, Actions)
-        const totalColumns = 4; 
-
-        if (filteredTasks.length === 0) {
-            taskList.innerHTML = `<tr><td colspan="${totalColumns}" class="no-task-found">No task found</td></tr>`;
+    // Fungsi baru untuk memperbarui info halaman dan tombol
+    function updatePaginationInfo() {
+        const totalPages = Math.ceil(filteredTasksData.length / rowsPerPage);
+        
+        if (filteredTasksData.length === 0) {
+            pageInfo.textContent = "No Data";
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
             return;
         }
 
-        filteredTasks.forEach(task => {
+        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+        
+        // Kontrol Tombol
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === totalPages;
+    }
+
+    function renderTasks() {
+        taskList.innerHTML = ''; 
+
+        // LOGIKA PAGINATION DITERAPKAN DI SINI
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedTasks = filteredTasksData.slice(start, end);
+
+        const totalColumns = 4; 
+
+        if (paginatedTasks.length === 0) {
+            taskList.innerHTML = `<tr><td colspan="${totalColumns}" class="no-task-found">No task found</td></tr>`;
+            // Jika halaman kosong, pastikan info pagination diperbarui
+            updatePaginationInfo(); 
+            return;
+        }
+
+        paginatedTasks.forEach(task => {
             const row = document.createElement('tr');
-            row.className = task.completed ? 'task-completed' : '';
+            row.className = task.completed ? 'task-completed' : ''; 
             row.setAttribute('data-id', task.id);
 
-            // Kolom Task
+            // Kolom 1: Task
             const taskCell = document.createElement('td');
             taskCell.textContent = task.task;
 
-            // Kolom Due Date
+            // Kolom 2: Due Date
             const dateCell = document.createElement('td');
-            dateCell.textContent = task.date;
-
-            // Kolom Status
+            try {
+                 dateCell.textContent = new Date(task.date + 'T00:00:00').toLocaleDateString('id-ID', {
+                     day: '2-digit', month: '2-digit', year: 'numeric'
+                 });
+            } catch {
+                dateCell.textContent = task.date;
+            }
+            
+            // Kolom 3: Status (Button)
             const statusCell = document.createElement('td');
             const statusBtn = document.createElement('button');
             statusBtn.className = `status-btn ${task.completed ? 'completed' : 'pending'}`;
             statusBtn.textContent = task.completed ? 'Completed' : 'Pending';
-            statusBtn.addEventListener('click', () => toggleStatus(task.id));
+            statusBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                toggleStatus(task.id)
+            });
             statusCell.appendChild(statusBtn);
 
-            // Kolom Actions (Edit & Delete)
+            // Kolom 4: Actions (Edit & Delete)
             const actionsCell = document.createElement('td');
             actionsCell.className = 'action-cell';
 
             const editBtn = document.createElement('button');
             editBtn.className = 'edit-btn';
             editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-            editBtn.addEventListener('click', () => editTask(task.id));
+            editBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                editTask(task.id)
+            });
 
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'delete-btn';
             deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-            deleteBtn.addEventListener('click', () => deleteTask(task.id));
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                deleteTask(task.id)
+            });
 
             actionsCell.appendChild(editBtn);
             actionsCell.appendChild(deleteBtn);
 
             row.appendChild(taskCell);
             row.appendChild(dateCell);
-            // priorityCell dihapus
             row.appendChild(statusCell);
             row.appendChild(actionsCell);
 
             taskList.appendChild(row);
         });
+        
+        // Setelah merender, update info pagination
+        updatePaginationInfo();
     }
+    
+    // --- Pagination Handlers ---
+    
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderTasks();
+        }
+    });
 
-    // --- Handler Events ---
+    nextBtn.addEventListener('click', () => {
+        const totalPages = Math.ceil(filteredTasksData.length / rowsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderTasks();
+        }
+    });
+
+    // --- Handler Events (Dimodifikasi untuk Pagination) ---
 
     addTaskBtn.addEventListener('click', () => {
         const taskText = taskInput.value.trim();
         const dueDate = dateInput.value;
-        // priority diambil dari form input yang sudah dihapus
-
-        // Validasi Input
+        
         if (taskText === "" || dueDate === "") {
             alert("Task and Due Date must be filled out!");
             return;
         }
 
         if (isEditing) {
-            // updateTask hanya butuh 3 argumen (id, taskText, dueDate)
             updateTask(currentEditId, taskText, dueDate); 
         } else {
-            // addTask hanya butuh 2 argumen (taskText, dueDate)
             addTask(taskText, dueDate);
         }
     });
@@ -104,27 +167,28 @@ document.addEventListener('DOMContentLoaded', () => {
         if (confirm("Are you sure you want to delete ALL tasks?")) {
             tasks = [];
             saveTasks();
-            renderTasks();
+            filterTasks(); // Memuat ulang dan merender
         }
     });
 
     filterStatus.addEventListener('change', filterTasks);
-    // filterPriority.addEventListener('change', filterTasks); dihapus
 
-    // --- CRUD Functions ---
+    // --- CRUD Functions (Dimodifikasi untuk Pagination) ---
 
-    // addTask diubah hanya menerima 2 argumen
     function addTask(taskText, dueDate) {
         const newTask = {
             id: Date.now(), 
             task: taskText,
             date: dueDate,
-            // priority: priority, dihapus
             completed: false
         };
         tasks.push(newTask);
         saveTasks();
-        renderTasks();
+        
+        // PENTING: Pindah ke halaman terakhir saat tugas baru ditambahkan
+        currentPage = Math.ceil((tasks.length + 1) / rowsPerPage);
+        
+        filterTasks(); 
         taskInput.value = '';
         dateInput.value = '';
     }
@@ -132,6 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function deleteTask(id) {
         tasks = tasks.filter(task => task.id !== id);
         saveTasks();
+        
+        // Setelah menghapus, cek apakah halaman saat ini masih valid
+        const totalPages = Math.ceil(filteredTasksData.length / rowsPerPage);
+        if (currentPage > totalPages && totalPages > 0) {
+            currentPage = totalPages;
+        } else if (totalPages === 0) {
+             currentPage = 1;
+        }
+        
         filterTasks(); 
     }
 
@@ -144,36 +217,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // editTask diubah tidak mengisi priorityInput
     function editTask(id) {
         const task = tasks.find(t => t.id === id);
         if (task) {
             taskInput.value = task.task;
             dateInput.value = task.date;
-            // priorityInput.value = task.priority; dihapus
 
             isEditing = true;
             currentEditId = id;
-            addTaskBtn.textContent = 'Update';
+            addTaskBtn.innerHTML = '<i class="fas fa-save"></i> Update';
             addTaskBtn.classList.remove('add-btn');
-            addTaskBtn.classList.add('edit-btn');
+            // Pastikan Anda punya styling untuk .edit-btn yang sesuai di CSS Anda
+            addTaskBtn.classList.add('edit-btn'); 
         }
     }
 
-    // updateTask diubah hanya menerima 3 argumen
     function updateTask(id, taskText, dueDate) {
         const task = tasks.find(t => t.id === id);
         if (task) {
             task.task = taskText;
             task.date = dueDate;
-            // task.priority = priority; dihapus
-
+            
             // Reset form/state
             isEditing = false;
             currentEditId = null;
             taskInput.value = '';
             dateInput.value = '';
-            addTaskBtn.textContent = 'Add';
+            addTaskBtn.innerHTML = '<i class="fas fa-plus"></i> Add';
             addTaskBtn.classList.remove('edit-btn');
             addTaskBtn.classList.add('add-btn');
 
@@ -182,7 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // filterTasks hanya memfilter berdasarkan status
     function filterTasks() {
         const status = filterStatus.value;
         
@@ -193,11 +262,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const isCompleted = status === 'completed';
             filtered = filtered.filter(task => task.completed === isCompleted);
         }
-        // Filter by Priority dihapus
 
-        renderTasks(filtered);
+        // Simpan data yang sudah difilter ke variabel global
+        filteredTasksData = filtered; 
+        
+        // PENTING: Setelah filter, selalu reset ke halaman 1 agar user melihat dari awal
+        currentPage = 1; 
+        
+        renderTasks();
     }
 
     // Initial load
-    renderTasks();
+    filterTasks(); 
 });
