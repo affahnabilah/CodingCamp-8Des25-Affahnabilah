@@ -1,0 +1,227 @@
+/* General Styling - LIGHT THEME */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6; /* Light background */
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #ffffff; /* White card */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 100%;
+    max-width: 900px;
+}
+
+h1 {
+    text-align: center;
+    color: #00796b; /* Teal/Hijau Tosca */
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    letter-spacing: 1.5px;
+}
+
+/* Input Area Styling */
+.input-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.input-area input, .input-area select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    color: #333;
+    flex: 1;
+    min-width: 120px;
+}
+
+.input-area input:focus, .input-area select:focus {
+    outline: 2px solid #00a69a; /* Light Teal focus */
+    background-color: #fff;
+}
+
+.action-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.add-btn {
+    background-color: #00796b; /* Primary color: Teal */
+    color: white;
+}
+
+.add-btn:hover {
+    background-color: #004d40;
+    transform: translateY(-1px);
+}
+
+/* Controls Area (Filter & Delete All) */
+.controls-area {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.controls-area select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    color: #333;
+    width: 150px;      /* Tambahkan lebar yang kamu mau */
+}
+
+.delete-all-btn {
+    background-color: #d32f2f; /* Red for deletion */
+    color: white;
+}
+
+.delete-all-btn:hover {
+    background-color: #b71c1c;
+}
+
+/* Task List Table Styling */
+.task-list-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee; /* Lighter border */
+}
+
+thead th {
+    background-color: #e0f2f1; /* Very light teal header */
+    color: #004d40;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+tbody tr {
+    background-color: #ffffff;
+    transition: background-color 0.3s;
+}
+
+tbody tr:hover {
+    background-color: #f0f0f0;
+}
+
+.no-task-found {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #999;
+}
+
+/* Status and Priority Styling */
+.status-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.pending {
+    background-color: #ff9800; /* Orange */
+    color: white;
+}
+
+.completed {
+    background-color: #4caf50; /* Green */
+    color: white;
+}
+
+
+
+.task-completed {
+    text-decoration: line-through;
+    color: #999;
+    transition: color 0.3s, text-decoration 0.3s;
+}
+
+/* Action Buttons within the table */
+.action-cell button {
+    margin-right: 5px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background-color 0.2s;
+}
+
+.edit-btn {
+    background-color: #00bcd4; /* Cyan/Biru Muda */
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #00838f;
+}
+
+.delete-btn {
+    background-color: #d32f2f;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #b71c1c;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .input-area, .controls-area {
+        flex-direction: column;
+    }
+
+    .input-area input, 
+    .input-area select, 
+    .input-area button,
+    .controls-area select,
+    .controls-area button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    th, td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+}
